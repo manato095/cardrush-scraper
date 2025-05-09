@@ -2,8 +2,8 @@ name: Run CardRush Scraper
 
 on:
   schedule:
-    - cron: '0 9 * * *'  # 毎日午前9時（日本時間18時）に実行
-  workflow_dispatch:      # 手動実行も可能
+    - cron: '0 9 * * *'
+  workflow_dispatch:
 
 jobs:
   scrape:
@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/upload-artifact@v3
+        uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -25,9 +25,3 @@ jobs:
 
       - name: Run scraper
         run: python scraper.py
-
-      - name: Upload output file
-        uses: actions/upload-artifact@v3
-        with:
-          name: scraped-data
-          path: output/cardrush_products.xlsx
