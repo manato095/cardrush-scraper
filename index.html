@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ポケモンカード検索</title>
+</head>
+<body>
+  <h1>CardRushカード検索</h1>
+  <input type="text" id="keyword" placeholder="例：ピカチュウ" />
+  <button onclick="runWorkflow()">検索実行</button>
+  <p id="status"></p>
+
+  <script>
+    async function runWorkflow() {
+      const keyword = document.getElementById('keyword').value.trim();
+      const status = document.getElementById('status');
+
+      if (!keyword) {
+        status.innerText = "検索ワードを入力してください。";
+        return;
+      }
+
+      status.innerText = "GitHub Actions を実行中...";
+
+      const response = await fetch(
+        'https://api.github.com/repos/あなたのユーザー名/リポジトリ名/actions/workflows/scrape.yml/dispatches',
+        {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/vnd.github+json',
+            'Authorization': 'Bearer YOUR_PERSONAL_ACCESS_TOKEN',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            ref: 'main',
+            inputs: {
+              keyword: keyword
+            }
+          })
+        }
+      );
+
+      if (response.status === 204) {
+        status.innerText = `「${keyword}」の検索が開始されました！数分後にActionsタブを確認してください。`;
+      } else {
+        const text = await response.text();
+        status.innerText = "エラー：" + response.status + "\n" + text;
+      }
+    }
+  </script>
+</body>
+</html>
