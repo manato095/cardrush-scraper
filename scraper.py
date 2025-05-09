@@ -3,6 +3,9 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import os
 
+# 出力フォルダが無ければ作成
+os.makedirs("output", exist_ok=True)
+
 url = 'https://www.cardrush-pokemon.jp/phone/'
 headers = {'User-Agent': 'Mozilla/5.0'}
 
