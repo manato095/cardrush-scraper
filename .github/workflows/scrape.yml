@@ -27,7 +27,7 @@ jobs:
         run: python scraper.py
 
       - name: Upload output file
-        uses: actions/upload-artifact@v3
+　　      uses: actions/upload-artifact@v3.1.3
         with:
           name: scraped-data
           path: output/cardrush_products.xlsx
